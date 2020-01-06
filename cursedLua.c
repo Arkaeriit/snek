@@ -1,10 +1,9 @@
 
 #include "cursedLua.h"
-#include <locale.h>
 
 int cl_init(lua_State *L){
-    setlocale(LC_ALL,""); //On veut du support UTF-8 de toute façon
-    initscr();
+    setlocale(LC_ALL,"");
+    newterm(NULL,NULL,stdout); //on utilise cela si on veux que le programme vienne d'un pipe
     return 0;
 }
 
@@ -25,7 +24,7 @@ int cl_close(lua_State *L){
 
 int cl_cursset(lua_State *L){
     int s = luaL_checknumber(L,1);
-    if(s==0 | s==1 | s==2) curs_set(s);
+    if( (s==0) | (s==1) | (s==2) ) curs_set(s);
     return 0;
 }
 
@@ -44,6 +43,7 @@ int cl_getxy(lua_State *L){
 }
 
 int cl_getch(lua_State *L){
+    fseek(stdin,0,SEEK_END);
     keypad(stdscr,TRUE);
     int elem = getch();
     switch(elem){
@@ -93,6 +93,24 @@ int cl_startcolor(lua_State *L){
     return 0;
 }
 
+int cl_defaultcolors(lua_State *L){
+    use_default_colors();
+    return 0;
+}
+
+int cl_init_pair(lua_State *L){
+    int couleur2 = luaL_checknumber(L,3);
+    int couleur1 = luaL_checknumber(L,2);
+    int paire = luaL_checknumber(L,1);
+    init_pair(paire,couleur1,couleur2);
+    return 0;
+}
+
+int cl_printw(lua_State* L){
+    const char* str = luaL_checkstring(L,1);
+    printw("%s",str);
+    return 0;
+}
 
 int cl_mvprintw(lua_State *L){
     const char* str = luaL_checkstring(L,3);
@@ -102,13 +120,27 @@ int cl_mvprintw(lua_State *L){
     return 0;
 }
 
+int cl_move(lua_State* L){
+    int x = luaL_checknumber(L,2);
+    int y = luaL_checknumber(L,1);
+    move(y,x);
+    return 0;
+}
+
 int cl_colors(lua_State *L){
     int color2 = luaL_checknumber(L,2);
     int color1 = luaL_checknumber(L,1);
+    use_default_colors();
     if(has_colors()){
-        init_pair(COLOR_PAIRS - 1,color1,color2);
-        attron(COLOR_PAIR(COLOR_PAIRS - 1));
+        init_pair(1,color1,color2);
+        wbkgd(stdscr,COLOR_PAIR(1));
     }
+    return 0;
+}
+
+int cl_set_color(lua_State *L){
+    int paire = luaL_checknumber(L,1);
+    attron(COLOR_PAIR(paire));
     return 0;
 }
 
@@ -119,8 +151,12 @@ void cl_include(lua_State *L){
     lua_setglobal(L,"endwin");
     lua_pushcfunction(L,cl_cursset);
     lua_setglobal(L,"curs_set");
+    lua_pushcfunction(L,cl_printw);
+    lua_setglobal(L,"printw");
     lua_pushcfunction(L,cl_mvprintw);
     lua_setglobal(L,"mvprintw");
+    lua_pushcfunction(L,cl_move);
+    lua_setglobal(L,"move");
     lua_pushcfunction(L,cl_refresh);
     lua_setglobal(L,"refresh");
     lua_pushcfunction(L,cl_getxy);
@@ -137,7 +173,14 @@ void cl_include(lua_State *L){
     lua_setglobal(L,"cl_color");
     lua_pushcfunction(L,cl_startcolor);
     lua_setglobal(L,"start_color");
+    lua_pushcfunction(L,cl_defaultcolors);
+    lua_setglobal(L,"use_default_colors");
+    lua_pushcfunction(L,cl_init_pair);
+    lua_setglobal(L,"init_pair");
+    lua_pushcfunction(L,cl_set_color);
+    lua_setglobal(L,"set_color");
 }
+
 
 
 

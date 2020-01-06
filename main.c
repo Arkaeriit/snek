@@ -20,7 +20,8 @@ int main(){
     lS_include(L);
 
     //On charge le fichier
-    luaL_dofile(L,"exemple.lua");
+    luaL_dofile(L,"maps.lua");
+    luaL_dofile(L,"snek.lua");
 
     //On appelle la fonction
     lua_getglobal(L,"main");
