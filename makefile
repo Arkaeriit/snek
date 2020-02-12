@@ -6,6 +6,9 @@ maps.luac : maps.lua
 snek.luac : snek.lua
 	luac -o snek.luac snek.lua
 
+main.luac : main.lua
+	luac -o main.luac main.lua
+
 cusedLua.o : cursedLua.c cursedLua.h
 	gcc -c cursedLua.c -Wall -o cursedLua.o
 

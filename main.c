@@ -22,6 +22,7 @@ int main(){
     //On charge le fichier
     luaL_dofile(L,"maps.lua");
     luaL_dofile(L,"snek.lua");
+    luaL_dofile(L,"main.lua");
 
     //On appelle la fonction
     lua_getglobal(L,"main");
