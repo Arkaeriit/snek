@@ -13,7 +13,7 @@ function main()
     initcurses()
     local mapTest = rectangleMap(8,12)
     sn = createSnek(4,4)
-    sn.body = {2,2,3}
+    sn.body = {{y=4,x=3},{y=4,x=2},{y=3,x=2}}
     mapTest:show()
     sn:show()
     refresh()
