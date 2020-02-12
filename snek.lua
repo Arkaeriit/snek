@@ -21,8 +21,29 @@ function createSnek(x, y)
         end
     end
 
-    --the dirrection is relative to the head as defined in the begining of the fine, growth is a bool asking if the snake moved or just grow.
-    --ret.move = function(direction, growth) 
+    --the direction is relataive to the head as defined in the begining of the fine, growth is a bool asking if the snake moved or just grew.
+    ret.move = function(snek, direction, growth) 
+        snek.body[#snek.body+1] = 0 --all cases of the body are diplaced by one
+        for i=1,#snek.body-1 do
+            snek.body[#snek.body-i+1] = snek.body[#snek.body-i]
+        end
+        if snek.body[1] then
+        snek.body[1].x = snek.head.x
+        snek.body[1].y = snek.head.y
+    end
+        if not caseDirection then --the head is moved
+            caseDirection = {
+                [1] = function(head); head.y = head.y - 1; end,
+                [2] = function(head); head.x = head.x - 1; end,
+                [3] = function(head); head.y = head.y + 1; end,
+                [4] = function(head); head.x = head.x + 1; end,
+            }
+        end
+        caseDirection[direction](snek.head)
+        if not growth then --if the snake didn't move the tip of the tail is cut
+            snek.body[#snek.body] = nil
+        end
+    end
 
     return ret
 end
