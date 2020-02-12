@@ -10,7 +10,7 @@ Dirrection from the head is when moving is showed like that:
 ]]
 
 function createSnek(x, y)
-    local ret = {head = {["y"] = y,["x"] = x}, body={}}
+    local ret = {head = pos(x,y), body={}}
 
     ret.show = function(snek)
         set_color(head.color)
@@ -23,14 +23,11 @@ function createSnek(x, y)
 
     --the direction is relataive to the head as defined in the begining of the fine, growth is a bool asking if the snake moved or just grew.
     ret.move = function(snek, direction, growth) 
-        snek.body[#snek.body+1] = 0 --all cases of the body are diplaced by one
-        for i=1,#snek.body-1 do
-            snek.body[#snek.body-i+1] = snek.body[#snek.body-i]
+        snek.body[#snek.body+1] = pos(nil,nil) --all cases of the body are diplaced by one
+        for i=0,#snek.body-2 do
+            snek.body[#snek.body-i]:clone(snek.body[#snek.body-i-1])
         end
-        if snek.body[1] then
-        snek.body[1].x = snek.head.x
-        snek.body[1].y = snek.head.y
-    end
+        snek.body[1]:clone(snek.head)
         if not caseDirection then --the head is moved
             caseDirection = {
                 [1] = function(head); head.y = head.y - 1; end,

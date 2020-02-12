@@ -17,8 +17,8 @@ head = {id = 2, color = 1, char = "@"}
 body = {id = 3, color = 1, char = "+"}
 
 --generate the most boring map you can think of
-function rectangleMap(x, y)
-    local ret = map()
+function rectangleMap(snek, x, y)
+    local ret = map(snek)
     for i=1,x do
         ret[i] = {}
         for j=1,y do
@@ -45,9 +45,16 @@ function drawMap(map)
 end
 
 --a basic map class
-function map()
-    local ret = {}
-    ret.show = drawMap
+function map(snek)
+    local ret = {["snek"] = snek}
+    ret.drawMap = drawMap
+
+    --refresh the screen
+    ret.show = function(map)
+        map:drawMap()
+        map.snek:show()
+        refresh()
+    end
     return ret
 end
 

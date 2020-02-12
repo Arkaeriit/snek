@@ -23,6 +23,7 @@ int main(){
     luaL_dofile(L,"maps.lua");
     luaL_dofile(L,"snek.lua");
     luaL_dofile(L,"main.lua");
+    luaL_dofile(L,"position.lua");
 
     //On appelle la fonction
     lua_getglobal(L,"main");
