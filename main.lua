@@ -6,6 +6,7 @@ function initcurses()
     use_default_colors()
     init_pair(1,-1,-1)
     init_pair(2,1,15)
+    offset = 2
 end
 
 function main()
@@ -13,8 +14,8 @@ function main()
     local mapTest = rectangleMap(8,12)
     sn = createSnek(4,4)
     sn.body = {2,2,3}
-    drawMap(mapTest,2)
-    sn:show(2)
+    mapTest:show()
+    sn:show()
     refresh()
     sleep(20)
     endwin()

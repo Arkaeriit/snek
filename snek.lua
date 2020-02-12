@@ -12,7 +12,7 @@ each case from the previous one
 function createSnek(x, y)
     local ret = {head = {y,x}, body={}}
 
-    ret.show = function(snek, offset)
+    ret.show = function(snek)
         local pos = snek.head
         set_color(head.color)
         mvprintw(offset + pos[1], offset + pos[2], head.char)
