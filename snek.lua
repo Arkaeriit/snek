@@ -42,6 +42,16 @@ function createSnek(x, y)
         end
     end
 
+    --see if the snake is biting its tail or not
+    ret.biting = function(snek)
+        for i=1,#snek.body do
+            if snek.head:compare(snek.body[i]) then
+                return true
+            end
+        end
+        return false
+    end
+
     return ret
 end
 

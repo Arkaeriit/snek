@@ -1,4 +1,4 @@
-all : clean test.bin
+all : test.bin
 
 maps.luac : maps.lua
 	luac -o maps.luac maps.lua
@@ -27,4 +27,5 @@ test.bin : main.o cursedLua.o luaSleep.o maps.luac position.luac main.luac snek.
 clean : 
 	rm -f *.bin
 	rm -f *.o
+	rm -f *.luac
 

@@ -144,6 +144,20 @@ int cl_set_color(lua_State *L){
     return 0;
 }
 
+int cl_getchTime(lua_State* L){
+    int scale = luaL_checkinteger(L,2);
+    int timeout = luaL_checkinteger(L,1);
+    int ret;
+    nodelay(stdscr, TRUE);
+    for(int i=0;i<timeout;i+=scale){
+        usleep(scale);
+        ret = getch();
+        if(ret != -1) //If we entered a char we stop
+            i = timeout+1;
+    }
+    lua_pushnumber(L,ret);
+}
+
 void cl_include(lua_State *L){
     lua_pushcfunction(L,cl_init);
     lua_setglobal(L,"initscr");
@@ -179,6 +193,8 @@ void cl_include(lua_State *L){
     lua_setglobal(L,"init_pair");
     lua_pushcfunction(L,cl_set_color);
     lua_setglobal(L,"set_color");
+    lua_pushcfunction(L,cl_getchTime);
+    lua_setglobal(L,"getchTime");
 }
 
 

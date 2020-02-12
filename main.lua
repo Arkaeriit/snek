@@ -11,6 +11,7 @@ end
 
 function main()
     initcurses()
+    getchTime(10000000,1000);
     sn = createSnek(4,4)
     local mapTest = rectangleMap(sn,8,12)
     sn.body = {pos(4,3),pos(4,2),pos(3,2)}
