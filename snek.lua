@@ -21,7 +21,7 @@ function createSnek(x, y)
         end
     end
 
-    --the direction is relataive to the head as defined in the begining of the fine, growth is a bool asking if the snake moved or just grew.
+    --the direction is relataive to the head as defined in the begining of the fine, the size of the snek is increased by one 
     ret.move = function(snek, direction, growth) 
         snek.body[#snek.body+1] = pos(nil,nil) --all cases of the body are diplaced by one
         for i=0,#snek.body-2 do
@@ -37,9 +37,11 @@ function createSnek(x, y)
             }
         end
         caseDirection[direction](snek.head)
-        if not growth then --if the snake didn't move the tip of the tail is cut
-            snek.body[#snek.body] = nil
-        end
+    end
+
+    --cut the last piece of the body of the snek
+    ret.cut = function(snek)
+        snek.body[#snek.body] = nil
     end
 
     --see if the snake is biting its tail or not
@@ -50,6 +52,16 @@ function createSnek(x, y)
             end
         end
         return false
+    end
+
+    --see if the coordonatex (x,y) are on the snake
+    ret.isSnek = function(snek, x, y)  
+        for i=1,#body do
+            if snek.body[i].x == x and snek.body[i].y == y then
+                return true
+            end
+        end
+        return (snek.head.x == x and snek.head.y == y)
     end
 
     return ret

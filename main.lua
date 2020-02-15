@@ -25,16 +25,23 @@ end
 
 function gameLoop(map)
     nodelay(true)
+    map:addFruit()
     previousDir = 1
     while not fin do
         inp = input()
-        if inp then
-            map.snek:move(inp,false)
+        if inp and inp ~= previousDir then
+            map.snek:move(inp)
             previousDir = inp
         else
-            map.snek:move(previousDir,false)
+            map.snek:move(previousDir)
+        end
+        if map:yum() then --if the snake ate a fruit we put a new one otherwise we prevent the snek from growing
+            map:addFruit()
+        else
+            map.snek:cut()
         end
         map:show()
+        collectgarbage() --a good time to collect since there is nothing to do
         msleep(500)
         if map:isBumping() or map.snek:biting() then
             fin = true
