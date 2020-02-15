@@ -44,10 +44,16 @@ function drawMap(map)
     end
 end
 
+--chack if the snek in the map is bumping it's head against a wall
+function isBumping(map)
+    return map[map.snek.head.y][map.snek.head.x] == wall
+end
+
 --a basic map class
 function map(snek)
     local ret = {["snek"] = snek}
     ret.drawMap = drawMap
+    ret.isBumping = isBumping
 
     --refresh the screen
     ret.show = function(map)

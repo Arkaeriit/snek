@@ -36,7 +36,7 @@ function gameLoop(map)
         end
         map:show()
         msleep(500)
-        if map.snek:biting() then
+        if map:isBumping() or map.snek:biting() then
             fin = true
         end
     end
