@@ -19,12 +19,13 @@ int cl_close(lua_State *L); //permet de fermer ncurses
 int cl_cursset(lua_State *L); //permet de chisir l'état du curseur
 int cl_refresh(lua_State *L); //permet de réactualiser l'écrant
 int cl_getxy(lua_State *L); //Permet de savoir les dimentions de l'écrant
-int cl_getch(lua_State *L); //Permet de récupérer les inputs de l'utilisateur
+int cl_getch(lua_State *L); //Permet de récupérer les inputs de l'utilisateur sous forme d'un entier résultat de getch
 int cl_getchTime(lua_State* L); //Permet de récupérer un input avent un timout (en µs) avec un découpage temporel (en µs)
 int cl_hascolor(lua_State *L);
 int cl_startcolor(lua_State *L);
 int cl_defaultcolors(lua_State *L); //permet d'avoir use_deffault_colors
 int cl_init_pair(lua_State *L); //Permet d'initialiser une paie de couleur.
+int cl_nodelay(lua_State* L); //permet de contrôler nodelay sur stdscr
 
 //Fonctions servant à écrire sur l'écrant
 
