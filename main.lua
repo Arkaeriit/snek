@@ -9,7 +9,9 @@ function initcurses()
     use_default_colors()
     init_pair(1,-1,-1)
     init_pair(2,1,15)
-    offset = 2
+    if not offset then --we give offset a default value
+        offset = 2
+    end
 end
 
 function input()
@@ -27,8 +29,8 @@ end
 
 function gameLoop(map)
     nodelay(true)
-    map:addFruit()
-    previousDir = 1
+    local previousDir = 4 --at the start the snake go to the right
+    map:show()
     while not fin do
         inp = input()
         if inp and inp ~= previousDir then
@@ -45,22 +47,48 @@ function gameLoop(map)
         map:show()
         collectgarbage() --a good time to collect since there is nothing to do
         msleep(500)
-        if map:isBumping() or map.snek:biting() then
+        if map:isBumping() or map.snek:biting() or map:isWin() then
             fin = true
         end
     end
     nodelay(false);
 end
 
-function main()
-    sn = createSnek(4,4)
-    local mapTest = rectangleMap(sn,8,12)
-    sn.body = {pos(4,3),pos(4,2),pos(3,2),pos(2,2)}
+--generate a default map whose size is based on the size of the terminal
+--if the map can't be generated an error is returned as a second return value
+function defaltMap()
+    local y,x = getmaxyx()
+    if y < 10 or x < 9 then
+        return nil,"Error : terminal too small"
+    end
+    local sn = createSnek(2,3)
+    sn.body = {pos(2,2)}
+    local ret = rectangleMap(sn, y-6, x-6)
+    for i=1,math.ceil(ret.max/12) do --we add a fruit for each 12 tiles
+        ret:addFruit()
+    end
+    offset = 3
+    return ret
+end
+    
 
+function main()
     initcurses()
-    mapTest:show()
-    gameLoop(mapTest)
+
+    local map,err = defaltMap()
+    if err then
+        endwin()
+        io.stderr:write(err)
+        return 1
+    end
+
+    gameLoop(map)
     sleep(5)
     endwin()
+
+    if map:isWin() then
+        print("You won!",mapTest.max)
+    end
+    return 0
 end
 

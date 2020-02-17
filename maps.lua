@@ -14,6 +14,11 @@ The possible elements are :
 Each element got an ID, a color palette and a representing character
 ]]
 
+--[[
+Deyond the tiles a map contain a reference to a snek on the map and a
+number, max, wich represent the max size the snake can grow
+]]
+
 --definitions
 void = {id = 0, color = 1, char = " "}
 ground = {id = 1, color = 1, char = " "}
@@ -23,67 +28,27 @@ body = {id = 4, color = 1, char = "+"}
 fruit = {id = 5, color = 1, char = "o"}
 
 --generate the most boring map you can think of
-function rectangleMap(snek, x, y)
+function rectangleMap(snek, y, x)
     local ret = map(snek)
-    for i=1,x do
+    for i=1,y do
         ret[i] = {}
-        for j=1,y do
-            if i==1 or j==1 or i==x or j==y then
+        for j=1,x do
+            if i==1 or j==1 or j==x or i==y then
                 ret[i][j] = wall
             else
                 ret[i][j] = ground
             end
         end
     end
+    ret:setMaxGnd()
     return ret
 end
 
---draw a map a tad to the top left of the terminal
-function drawMap(map)
-    for i=1,#map do
-        move(i+offset-1, offset)
-        for j=1,#map[i] do
-            local case = map[i][j]
-            set_color(case.color)
-            printw(case.char)
-        end
-    end
-end
 
---chack if the snek in the map is bumping it's head against a wall
-function isBumping(map)
-    return map[map.snek.head.y][map.snek.head.x] == wall
-end
-
---change a ground case not bellow the snek in a fruit case
-function addFruit(map)
-    local y = math.random(1,#map)
-    local x = math.random(1,#map[y])
-    local posn = pos(y,x)
-    if map[y][x] == ground and (not map.snek:isSnek(posn)) then
-        map[y][x] = fruit
-    else --if we can't put a fruit we retry
-        addFruit(map)
-    end
-end
-
---return weather or not the head of the snek is on a fruit and if true hange the case back to normal ground
-function yum(map)
-    if map[map.snek.head.y][map.snek.head.x] == fruit then
-        map[map.snek.head.y][map.snek.head.x] = ground
-        return true
-    else
-        return false
-    end        
-end
 
 --a basic map class
 function map(snek)
-    local ret = {["snek"] = snek}
-    ret.drawMap = drawMap
-    ret.isBumping = isBumping
-    ret.yum = yum
-    ret.addFruit = addFruit
+    local ret = {["snek"] = snek, ["max"] = 0}
 
     --refresh the screen
     ret.show = function(map)
@@ -91,7 +56,74 @@ function map(snek)
         map.snek:show()
         refresh()
     end
+
+    --return weather or not the head of the snek is on a fruit and if true hange the case back to normal ground
+    ret.yum = function(map)
+        if map[map.snek.head.y][map.snek.head.x] == fruit then
+            map[map.snek.head.y][map.snek.head.x] = ground
+            return true
+        else
+            return false
+        end        
+    end
+
+    --draw a map a tad to the top left of the terminal
+    ret.drawMap = function(map)
+        for i=1,#map do
+            move(i+offset-1, offset)
+            for j=1,#map[i] do
+                local case = map[i][j]
+                set_color(case.color)
+                printw(case.char)
+            end
+        end
+    end
+
+    --chack if the snek in the map is bumping it's head against a wall
+    ret.isBumping = function(map)
+        return map[map.snek.head.y][map.snek.head.x] == wall
+    end
+
+    --change a ground case not bellow the snek in a fruit case
+    ret.addFruit = function(map)
+        local y = math.random(1,#map)
+        local x = math.random(1,#map[y])
+        local posn = pos(y,x)
+        if map[y][x] == ground and (not map.snek:isSnek(posn)) then
+            map[y][x] = fruit
+        elseif map:moreFruit() then --if we can't put a fruit we retry if we arent done
+            map:addFruit()
+        end
+    end
+
+    --return true of we can add more fuits
+    ret.moreFruit = function(map)
+        return (map:cmpGround() > (#map.snek.body + 1))
+    end
+
+    --put the number of ground tiles in the max fied
+    ret.setMaxGnd = function(map)   
+        map.max = map:cmpGround()
+    end
+
+    --return the number of ground tiles
+    ret.cmpGround = function(map)
+        local ret = 0
+        for i=1,#map do
+            for j=1,#map[i] do
+                if map[i][j] == ground then
+                    ret = ret + 1
+                end
+            end
+        end
+        return ret
+    end
+
+    --return true if the size of the snake is equal to the max field
+    ret.isWin = function(map)
+        return (#map.snek.body + 1) >= map.max
+    end
+
     return ret
 end
-
 
