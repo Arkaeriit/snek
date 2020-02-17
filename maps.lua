@@ -57,9 +57,10 @@ end
 
 --change a ground case not bellow the snek in a fruit case
 function addFruit(map)
-    y = math.random(1,#map)
-    x = math.random(1,#map[y])
-    if map[y][x] == ground and not map.snek:isSnek(x,y) then
+    local y = math.random(1,#map)
+    local x = math.random(1,#map[y])
+    local posn = pos(y,x)
+    if map[y][x] == ground and (not map.snek:isSnek(posn)) then
         map[y][x] = fruit
     else --if we can't put a fruit we retry
         addFruit(map)

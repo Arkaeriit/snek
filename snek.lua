@@ -54,14 +54,14 @@ function createSnek(x, y)
         return false
     end
 
-    --see if the coordonatex (x,y) are on the snake
-    ret.isSnek = function(snek, x, y)  
-        for i=1,#body do
-            if snek.body[i].x == x and snek.body[i].y == y then
+    --see if the coordonate of  pos are on the snake
+    ret.isSnek = function(snek, pos)  
+        for i=1,#snek.body do
+            if snek.body[i]:compare(pos) then
                 return true
             end
         end
-        return (snek.head.x == x and snek.head.y == y)
+        return snek.head:compare(pos)
     end
 
     return ret

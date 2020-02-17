@@ -29,3 +29,6 @@ clean :
 	rm -f *.o
 	rm -f *.luac
 
+test : test.bin
+	./test.bin
+

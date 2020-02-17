@@ -1,5 +1,7 @@
 
 function initcurses()
+    log = io.open("log","a") --a debug file
+    log:write("\nNew Game\n")
     initscr()
     curs_set(0)
     start_color()
@@ -51,10 +53,11 @@ function gameLoop(map)
 end
 
 function main()
-    initcurses()
     sn = createSnek(4,4)
     local mapTest = rectangleMap(sn,8,12)
     sn.body = {pos(4,3),pos(4,2),pos(3,2),pos(2,2)}
+
+    initcurses()
     mapTest:show()
     gameLoop(mapTest)
     sleep(5)
