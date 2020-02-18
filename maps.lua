@@ -23,9 +23,9 @@ number, max, wich represent the max size the snake can grow
 void = {id = 0, color = 1, char = " "}
 ground = {id = 1, color = 1, char = " "}
 wall = {id = 2, color = 2, char = " "}
-head = {id = 3, color = 1, char = "@"}
-body = {id = 4, color = 1, char = "+"}
-fruit = {id = 5, color = 1, char = "o"}
+head = {id = 3, color = 3, char = "@"}
+body = {id = 4, color = 3, char = "+"}
+fruit = {id = 5, color = 4, char = "o"}
 
 --generate the most boring map you can think of
 function rectangleMap(snek, y, x)

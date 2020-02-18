@@ -1,7 +1,7 @@
 
 function initcurses()
-    log = io.open("log","a") --a debug file
-    log:write("\nNew Game\n")
+    --log = io.open("log","a") --a debug file --not much point now
+    --log:write("\nNew Game\n")
     initscr()
     curs_set(0)
     start_color()
@@ -9,6 +9,8 @@ function initcurses()
     use_default_colors()
     init_pair(1,-1,-1)
     init_pair(2,1,15)
+    init_pair(3,10,-1)
+    init_pair(4,9,-1)
     if not offset then --we give offset a default value
         offset = 2
     end
