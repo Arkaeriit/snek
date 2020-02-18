@@ -59,6 +59,7 @@ end
 --generate a default map whose size is based on the size of the terminal
 --if the map can't be generated an error is returned as a second return value
 function defaltMap()
+    initcurses()
     local y,x = getmaxyx()
     if y < 10 or x < 9 then
         return nil,"Error : terminal too small"
@@ -72,26 +73,50 @@ function defaltMap()
     offset = 3
     return ret
 end
-    
 
-function main()
+function playMap(map)
+    math.randomseed(os.time())
     initcurses()
-    
-    --local map,err = readMap(io.open("test.map","r"))
+    gameLoop(map)
+    sleep(3)
+    endwin()
+    if map:isWin() then
+        print("You won!")
+    else
+        print("You lost.")
+    end
+    return 0
+end
+
+function defaultPlay()
     local map,err = defaltMap()
     if err then
         endwin()
         io.stderr:write(err)
         return 1
     end
+    local ret = playMap(map)
+    return ret
+end
 
-    gameLoop(map)
-    sleep(5)
-    endwin()
-
-    if map:isWin() then
-        print("You won!")
+function askMap(filename)
+    local f = io.open(filename,"r")
+    if not f then
+        f = io.open("/usr/local/share/snek/maps/"..filename,"r")
     end
+    if not f then
+        f = io.open("/usr/share/snek/maps/"..filename,"r")
+    end
+    if not f then
+        io.stderr:write("Errot : No such map as ",filename,".\n")
+        return 3
+    end
+    local map,err = readMap(f)
+    if err then
+        io.stderr:write(err)
+        return 2
+    end
+    playMap(map)
     return 0
 end
 

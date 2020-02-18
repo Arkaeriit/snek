@@ -40,6 +40,7 @@ install :
 	cp -f snek.luac /usr/local/share/snek/
 	cp -f maps.luac /usr/local/share/snek/
 	cp -f position.luac /usr/local/share/snek/
+	cp -f mapsGenerator.luac /usr/local/share/snek/
 	cp -f main.luac /usr/local/share/snek/
 	cp -f snek.bin /usr/local/bin/snek
 	cp -f maps/* /usr/local/share/snek/maps/

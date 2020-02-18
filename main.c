@@ -11,9 +11,9 @@ load lirairies and luac files.                |
 #include "gestionFS.h"
 
 //Choosing local file or global ones
-#define DEVEL 1
+#define DEVEL 0
 
-int main(){
+int main(int argc, char** argv){
     lua_State* L;
     L = luaL_newstate();
 
@@ -39,9 +39,21 @@ int main(){
 #endif
 
     //Starting the main lua function
-    lua_getglobal(L,"main");
-    lua_call(L,0,1);
-
+    if(argc == 1){ //no arguments
+        lua_getglobal(L,"defaultPlay");
+        lua_call(L,0,1);
+    }else if(argc == 2){ //one argument
+        if(!strcmp(argv[1],"help")){
+            //TODO
+        }else{ //We ask a special map
+            lua_getglobal(L,"askMap");
+            lua_pushstring(L, argv[1]);
+            lua_call(L,1,1);
+        }
+    }else{ //Mauvais arguments
+        //TODO
+    }
+        
     int ret = luaL_checknumber(L,1);
 
     //Cleanup
