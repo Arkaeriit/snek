@@ -1,5 +1,7 @@
-//exemple d'appel de fonctions lua par du C
-
+/*--------------------------------------------\
+This file is used to start the Lua program and|
+load lirairies and luac files.                |
+\--------------------------------------------*/
 
 #include <lua.h>
 #include <lualib.h>
@@ -7,31 +9,36 @@
 #include "cursedLua.h"
 #include "luaSleep.h"
 
+//Choosing local file or global ones
+#define DEVEL 0
+
 int main(){
     lua_State* L;
-    // initialize Lua interpreter
     L = luaL_newstate();
 
-    // load Lua base libraries (print / math / etc)
+    //Loading librairies
     luaL_openlibs(L);
-
-    //On charge les fonctions custom
     cl_include(L);
     lS_include(L);
 
-    //On charge le fichier
+    //Loading lua files
+#if DEVEL == 1
     luaL_dofile(L,"maps.lua");
     luaL_dofile(L,"snek.lua");
     luaL_dofile(L,"main.lua");
     luaL_dofile(L,"position.lua");
+#else
+    luaL_dofile(L,"/usr/local/share/snek/maps.luac");
+    luaL_dofile(L,"/usr/local/share/snek/snek.luac");
+    luaL_dofile(L,"/usr/local/share/snek/main.luac");
+    luaL_dofile(L,"/usr/local/share/snek/position.luac");
+#endif
 
-    //On appelle la fonction
+    //Starting the main lua function
     lua_getglobal(L,"main");
-
-    //On execute la fonction
     lua_call(L,0,0);
 
-    // Cleanup:  Deallocate all space assocatated with the lua state */
+    //Cleanup
     lua_close(L);
 
     return 0;

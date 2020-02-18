@@ -1,4 +1,4 @@
-all : test.bin
+all : snek.bin
 
 maps.luac : maps.lua
 	luac -o maps.luac maps.lua
@@ -21,14 +21,26 @@ luaSleep.o : luaSleep.c luaSleep.h
 main.o : main.c
 	gcc -c main.c -o main.o
 
-test.bin : main.o cursedLua.o luaSleep.o maps.luac position.luac main.luac snek.luac
-	gcc main.o cursedLua.o luaSleep.o -lncursesw -llua -lm -ldl -o test.bin
+snek.bin : main.o cursedLua.o luaSleep.o maps.luac position.luac main.luac snek.luac
+	gcc main.o cursedLua.o luaSleep.o -lncursesw -llua -lm -ldl -o snek.bin
+
+install :
+	mkdir -p /usr/local/share/snek
+	cp -f snek.luac /usr/local/share/snek/
+	cp -f maps.luac /usr/local/share/snek/
+	cp -f position.luac /usr/local/share/snek/
+	cp -f main.luac /usr/local/share/snek/
+	cp -f snek.bin /usr/local/bin/snek
+
+unistall :
+	rm -rf /usr/lcal/share/snek
+	rm -f /usr/local/bin/snek
 
 clean : 
 	rm -f *.bin
 	rm -f *.o
 	rm -f *.luac
 
-test : test.bin
-	./test.bin
+test : snek.bin
+	./snek.bin
 
