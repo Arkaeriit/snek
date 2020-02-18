@@ -12,6 +12,9 @@ main.luac : main.lua
 position.luac : position.lua
 	luac -o position.luac position.lua
 
+mapsGenerator.luac : mapsGenerator.lua
+	luac -o mapsGenerator.luac mapsGenerator.lua
+
 cusedLua.o : cursedLua.c cursedLua.h
 	gcc -c cursedLua.c -Wall -o cursedLua.o
 
@@ -21,7 +24,7 @@ luaSleep.o : luaSleep.c luaSleep.h
 main.o : main.c
 	gcc -c main.c -o main.o
 
-snek.bin : main.o cursedLua.o luaSleep.o maps.luac position.luac main.luac snek.luac
+snek.bin : main.o cursedLua.o luaSleep.o maps.luac position.luac main.luac snek.luac mapsGenerator.luac
 	gcc main.o cursedLua.o luaSleep.o -lncursesw -llua -lm -ldl -o snek.bin
 
 install :

@@ -9,8 +9,8 @@ Dirrection from the head is when moving is showed like that:
     3
 ]]
 
-function createSnek(x, y)
-    local ret = {head = pos(x,y), body={}}
+function createSnek(y, x)
+    local ret = {head = pos(y,x), body={}}
 
     ret.show = function(snek)
         set_color(head.color)

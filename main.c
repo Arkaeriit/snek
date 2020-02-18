@@ -10,7 +10,7 @@ load lirairies and luac files.                |
 #include "luaSleep.h"
 
 //Choosing local file or global ones
-#define DEVEL 0
+#define DEVEL 1
 
 int main(){
     lua_State* L;
@@ -27,19 +27,24 @@ int main(){
     luaL_dofile(L,"snek.lua");
     luaL_dofile(L,"main.lua");
     luaL_dofile(L,"position.lua");
+    luaL_dofile(L,"mapsGenerator.lua");
 #else
     luaL_dofile(L,"/usr/local/share/snek/maps.luac");
     luaL_dofile(L,"/usr/local/share/snek/snek.luac");
     luaL_dofile(L,"/usr/local/share/snek/main.luac");
     luaL_dofile(L,"/usr/local/share/snek/position.luac");
+    luaL_dofile(L,"/usr/local/share/snek/mapsGenerator.luac");
 #endif
 
     //Starting the main lua function
-    lua_getglobal(L,"main");
-    lua_call(L,0,0);
+    lua_getglobal(L,"testLoad");
+    lua_call(L,0,1);
+
+    int ret = luaL_checknumber(L,1);
 
     //Cleanup
     lua_close(L);
 
-    return 0;
+    return ret;
 }
+
