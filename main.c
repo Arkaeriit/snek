@@ -37,7 +37,7 @@ int main(){
 #endif
 
     //Starting the main lua function
-    lua_getglobal(L,"testLoad");
+    lua_getglobal(L,"main");
     lua_call(L,0,1);
 
     int ret = luaL_checknumber(L,1);

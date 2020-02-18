@@ -4,6 +4,7 @@ A map file is started by a line that will not be parsed to give it a description
 The second line contain a number, the number of fruit that need to be put in the map
 The third line contain the number of the line where the snake start.
 The fourth line contain the number of the collumn where the snake start. Note that the snake goes to it's right when starting and it got a 1 tile long tail.
+The fifth line contain the size of the snake expected to wil. If it is not a number it will default to the number of ground tiles.
 Then each line contain what is needed to represent ehe content of the map, each line of the file represent a line of the map. Each char in the file correspond to an object with the same id on the map.
 New lines, cardrige return are not parsed, unknown character are considered as void tiles.
 ]]
@@ -40,6 +41,7 @@ function readMap(file)
     local fruit = tonumber(file:read("l"))
     local y = tonumber(file:read("l"))
     local x = tonumber(file:read("l"))
+    local max = tonumber(file:read("l"))
     local sn = createSnek(y, x)
     sn.body = {pos(y, x-1)}
     local ret = map(sn)
@@ -48,7 +50,12 @@ function readMap(file)
         ret[#ret+1] = createLine(str)
         str = file:read("l")
     end
-    for i=1,#fruit do
+    if max then
+        ret.max = max
+    else
+        ret:setMaxGnd()
+    end
+    for i=1,fruit do
         ret:addFruit()
     end
     return ret

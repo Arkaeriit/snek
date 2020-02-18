@@ -76,8 +76,8 @@ end
 
 function main()
     initcurses()
-
-    local map,err = defaltMap()
+    
+    local map,err = readMap(io.open("test.map","r"))
     if err then
         endwin()
         io.stderr:write(err)
@@ -89,7 +89,7 @@ function main()
     endwin()
 
     if map:isWin() then
-        print("You won!",mapTest.max)
+        print("You won!")
     end
     return 0
 end
