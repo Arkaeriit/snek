@@ -19,6 +19,9 @@ position.luac : position.lua
 mapsGenerator.luac : mapsGenerator.lua
 	luac -o mapsGenerator.luac mapsGenerator.lua
 
+info.luac : info.lua
+	luac -o info.luac info.lua
+
 cusedLua.o : cursedLua.c cursedLua.h
 	gcc -c cursedLua.c $(FLAGS) -o cursedLua.o
 
@@ -31,7 +34,7 @@ gestionFS.o : gestionFS.c gestionFS.h
 main.o : main.c
 	gcc -c main.c $(FLAGS) -o main.o
 
-snek.bin : main.o cursedLua.o luaSleep.o gestionFS.o maps.luac position.luac main.luac snek.luac mapsGenerator.luac
+snek.bin : main.o cursedLua.o luaSleep.o gestionFS.o maps.luac position.luac main.luac snek.luac mapsGenerator.luac info.luac
 	gcc main.o cursedLua.o luaSleep.o gestionFS.o $(FLAGS) $(NC) $(LUA) -o snek.bin
 
 install :
@@ -41,6 +44,7 @@ install :
 	cp -f maps.luac /usr/local/share/snek/
 	cp -f position.luac /usr/local/share/snek/
 	cp -f mapsGenerator.luac /usr/local/share/snek/
+	cp -f info.luac /usr/local/share/snek/
 	cp -f main.luac /usr/local/share/snek/
 	cp -f snek.bin /usr/local/bin/snek
 	cp -f maps/* /usr/local/share/snek/maps/

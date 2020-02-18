@@ -30,12 +30,14 @@ int main(int argc, char** argv){
     luaL_dofile(L,"main.lua");
     luaL_dofile(L,"position.lua");
     luaL_dofile(L,"mapsGenerator.lua");
+    luaL_dofile(L,"info.lua");
 #else
     luaL_dofile(L,"/usr/local/share/snek/maps.luac");
     luaL_dofile(L,"/usr/local/share/snek/snek.luac");
     luaL_dofile(L,"/usr/local/share/snek/main.luac");
     luaL_dofile(L,"/usr/local/share/snek/position.luac");
     luaL_dofile(L,"/usr/local/share/snek/mapsGenerator.luac");
+    luaL_dofile(L,"/usr/local/share/snek/info.luac");
 #endif
 
     //Starting the main lua function
@@ -44,14 +46,19 @@ int main(int argc, char** argv){
         lua_call(L,0,1);
     }else if(argc == 2){ //one argument
         if(!strcmp(argv[1],"help")){
-            //TODO
+            lua_getglobal(L,"help");
+            lua_call(L,0,1);
+        }else if(!strcmp(argv[1],"map")){
+            lua_getglobal(L,"displayAvailableMaps");
+            lua_call(L,0,1);
         }else{ //We ask a special map
             lua_getglobal(L,"askMap");
             lua_pushstring(L, argv[1]);
             lua_call(L,1,1);
         }
     }else{ //Mauvais arguments
-        //TODO
+        lua_getglobal(L,"invalidArgs");
+        lua_call(L,0,1);
     }
         
     int ret = luaL_checknumber(L,1);

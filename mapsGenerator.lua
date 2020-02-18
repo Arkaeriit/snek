@@ -45,16 +45,16 @@ function readMap(file)
     if errorInput(fruit, x, y, max) then --checking the validity of the first parametters
         return nil,"Error : the 4 first parameters of the map are wrong.\n"
     end
-    local sn = createSnek(y, x) --creation of the snake
-    sn.body = {pos(y, x-1)}
+    local sn = createSnek(math.tointeger(y), math.tointeger(x)) --creation of the snake
+    sn.body = {pos(math.tointeger(y), math.tointeger(x)-1)}
     local ret = map(sn)
     str = file:read("l")
     while str do --creation of the map
         ret[#ret+1] = createLine(str)
         str = file:read("l")
     end
-    if max then
-        ret.max = max
+    if max and math.tointeger(max) then
+        ret.max = math.tointeger(max)
     else
         ret:setMaxGnd()
     end
@@ -69,7 +69,7 @@ end
 
 --check that the 4 first parameters are integers
 function errorInput(fruit, x, y ,max)
-    return not (fruit and math.tointeger(fruit) and x and math.tointeger(x) and y and math.tointeger(y) and max and math.tointeger(max))
+    return not (fruit and math.tointeger(fruit) and x and math.tointeger(x) and y and math.tointeger(y))
 end
 
 --check that the snake is inside the map
