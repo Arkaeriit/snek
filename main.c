@@ -8,6 +8,7 @@ load lirairies and luac files.                |
 #include <lauxlib.h>
 #include "cursedLua.h"
 #include "luaSleep.h"
+#include "gestionFS.h"
 
 //Choosing local file or global ones
 #define DEVEL 1
@@ -20,6 +21,7 @@ int main(){
     luaL_openlibs(L);
     cl_include(L);
     lS_include(L);
+    gFS_include(L);
 
     //Loading lua files
 #if DEVEL == 1

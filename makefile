@@ -21,19 +21,24 @@ cusedLua.o : cursedLua.c cursedLua.h
 luaSleep.o : luaSleep.c luaSleep.h
 	gcc -c luaSleep.c -Wall -o luaSleep.o
 
+gestionFS.o : gestionFS.c gestionFS.h
+	gcc -c gestionFS.c -o gestionFS.o
+
 main.o : main.c
 	gcc -c main.c -o main.o
 
-snek.bin : main.o cursedLua.o luaSleep.o maps.luac position.luac main.luac snek.luac mapsGenerator.luac
-	gcc main.o cursedLua.o luaSleep.o -lncursesw -llua -lm -ldl -o snek.bin
+snek.bin : main.o cursedLua.o luaSleep.o gestionFS.o maps.luac position.luac main.luac snek.luac mapsGenerator.luac
+	gcc main.o cursedLua.o luaSleep.o gestionFS.o -lncursesw -llua -lm -ldl -o snek.bin
 
 install :
 	mkdir -p /usr/local/share/snek
+	mkdir -p /usr/local/share/snek/maps
 	cp -f snek.luac /usr/local/share/snek/
 	cp -f maps.luac /usr/local/share/snek/
 	cp -f position.luac /usr/local/share/snek/
 	cp -f main.luac /usr/local/share/snek/
 	cp -f snek.bin /usr/local/bin/snek
+	cp -f maps/* /usr/local/share/snek/maps/
 
 unistall :
 	rm -rf /usr/lcal/share/snek
