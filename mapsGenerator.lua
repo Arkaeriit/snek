@@ -35,18 +35,21 @@ function testLoad()
     return 0
 end
 
---Read a file whose pointer in given as argument and return the corresponding map
+--Read a file whose pointer in given as argument and return the corresponding map. If there is an error it retuen an explication as a second argument
 function readMap(file)
-    local str = file:read("l")
-    local fruit = tonumber(file:read("l"))
+    local str = file:read("l") --comment line
+    local fruit = tonumber(file:read("l")) --parsing of the firsts parametters
     local y = tonumber(file:read("l"))
     local x = tonumber(file:read("l"))
     local max = tonumber(file:read("l"))
-    local sn = createSnek(y, x)
+    if errorInput(fruit, x, y, max) then --checking the validity of the first parametters
+        return nil,"Error : the 4 first parameters of the map are wrong.\n"
+    end
+    local sn = createSnek(y, x) --creation of the snake
     sn.body = {pos(y, x-1)}
     local ret = map(sn)
     str = file:read("l")
-    while str do
+    while str do --creation of the map
         ret[#ret+1] = createLine(str)
         str = file:read("l")
     end
@@ -55,10 +58,31 @@ function readMap(file)
     else
         ret:setMaxGnd()
     end
+    if errorPosition(ret) then --checking the position of the snake
+        return nil, "Error : the snake is outside the map.\n"
+    end
     for i=1,fruit do
         ret:addFruit()
     end
-    return ret
+    return ret, nil
+end
+
+--check that the 4 first parameters are integers
+function errorInput(fruit, x, y ,max)
+    return not (fruit and math.tointeger(fruit) and x and math.tointeger(x) and y and math.tointeger(y) and max and math.tointeger(max))
+end
+
+--check that the snake is inside the map
+function errorPosition(map)
+    local x = map.snek.head.x
+    local y = map.snek.head.y
+    if x < 2 or y < 1 then --we check the small bound
+        return true
+    end
+    if y > #map or x > #map[y] then --we check that the snake is inside the map
+        return true
+    end
+    return map[y][x] == wall or map[y][x-1] == wall --we check that the snake is not on walls
 end
 
 --Take a line from a file and create a line for a map, then return it

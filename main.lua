@@ -77,7 +77,7 @@ end
 function main()
     initcurses()
     
-    local map,err = readMap(io.open("test.map","r"))
+    local map,err = readMap(io.open("testBad.map","r"))
     if err then
         endwin()
         io.stderr:write(err)
