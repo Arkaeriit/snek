@@ -62,12 +62,11 @@ int main(int argc, char** argv){
             lua_pushstring(L, argv[1]);
             lua_call(L,1,1);
         }
-    }else{ //Mauvais arguments
+    }else{ //Bad arguments
         lua_getglobal(L,"invalidArgs");
         lua_call(L,0,1);
     }
-        
-    int ret = luaL_checknumber(L,1);
+    int ret = luaL_checknumber(L,-1);
 
     //Cleanup
     lua_close(L);

@@ -1,18 +1,33 @@
 
+curse_on = false --indicate if we run initcurses or not
+
 function initcurses()
-    --log = io.open("log","a") --a debug file --not much point now
-    --log:write("\nNew Game\n")
-    initscr()
-    curs_set(0)
-    start_color()
-    noecho()
-    use_default_colors()
-    init_pair(1,-1,-1)
-    init_pair(2,1,15)
-    init_pair(3,10,-1)
-    init_pair(4,9,-1)
-    if not offset then --we give offset a default value
-        offset = 2
+    if not curse_on then
+        --log = io.open("log","a") --a debug file --not much point now
+        --log:write("\nNew Game\n")
+        initscr()
+        curs_set(0)
+        start_color()
+        noecho()
+        use_default_colors()
+        init_pair(1,-1,-1)
+        init_pair(2,1,15)
+        init_pair(3,10,-1)
+        init_pair(4,9,-1)
+        if not offset then --we give offset a default value
+            offset = 2
+        end
+        curse_on = true
+    end
+end
+
+function stopcurses()
+    if curse_on then
+        echo()
+        curs_set(1)
+        nodelay(false)
+        endwin()
+        curse_on = false
     end
 end
 
@@ -79,7 +94,7 @@ function playMap(map)
     initcurses()
     gameLoop(map)
     sleep(3)
-    endwin()
+    stopcurses()
     if map:isWin() then
         print("You won!")
     else
@@ -91,7 +106,7 @@ end
 function defaultPlay()
     local map,err = defaltMap()
     if err then
-        endwin()
+        stopcurses()
         io.stderr:write(err)
         return 1
     end
@@ -116,7 +131,7 @@ function askMap(filename)
         io.stderr:write(err)
         return 2
     end
-    playMap(map)
-    return 0
+    local ret = playMap(map)
+    return ret
 end
 
