@@ -13,8 +13,8 @@ New lines, cardrige return are not parsed, unknown character are considered as v
 dico = { ["0"] = void,
          ["1"] = ground,
          ["2"] = wall,
-         ["3"] = head,
-         ["4"]  = body,
+         --["3"] = head,  --No point in using the head or the body as tiles
+         --["4"]  = body,
          ["5"] = fruit,
 }
 

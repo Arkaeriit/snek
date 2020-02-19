@@ -3,7 +3,20 @@ This file contains the help function and functions to get infos about installed 
 ]]
 
 function help()
-    print("Sorry, mate. Nothing here")
+    print("Snek user manual")
+    print("")
+    print("Start the game")
+    print("    To start the game just type `snek` and the game will start in a map adapted to the size of your terminal.")
+    print("")
+    print("    You can also play a custom map. To do so type `snek ` followed by the name of the map. For example `snek Factory` will start the map factory. You can list all available maps by typing `snek map`")
+    print("")
+    print("Play the game")
+    print("    The aim of the game is to have the biggest snake possible. The head of the snake is represented by a `@` and it's body by `+`. To make the smake grow it must eat fruit represented by red `o`. Be careful, the snake can't hit a wall or bit it's own tail, otherwize you loose.")
+    print("")
+    print("    To control the snake, use the arrow keys.")
+    print("")
+    print("Creating custom maps")
+    print("    You can create your own maps. To do so check the instructions in the readme at https://github.com/Arkaeriit/snek")
     return 0
 end
 

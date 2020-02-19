@@ -32,6 +32,12 @@ int main(int argc, char** argv){
     luaL_dofile(L,"mapsGenerator.lua");
     luaL_dofile(L,"info.lua");
 #else
+    luaL_dofile(L,"/usr/share/snek/maps.luac");
+    luaL_dofile(L,"/usr/share/snek/snek.luac");
+    luaL_dofile(L,"/usr/share/snek/main.luac");
+    luaL_dofile(L,"/usr/share/snek/position.luac");
+    luaL_dofile(L,"/usr/share/snek/mapsGenerator.luac");
+    luaL_dofile(L,"/usr/share/snek/info.luac");
     luaL_dofile(L,"/usr/local/share/snek/maps.luac");
     luaL_dofile(L,"/usr/local/share/snek/snek.luac");
     luaL_dofile(L,"/usr/local/share/snek/main.luac");
