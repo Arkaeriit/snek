@@ -6,12 +6,11 @@ load lirairies and luac files.                |
 #include <lua.h>
 #include <lualib.h>
 #include <lauxlib.h>
-#include "cursedLua.h"
 #include "luaSleep.h"
 #include "gestionFS.h"
 
 //Choosing local file or global ones
-#define DEVEL 0
+#define DEVEL 1
 
 int main(int argc, char** argv){
     lua_State* L;
@@ -19,7 +18,6 @@ int main(int argc, char** argv){
 
     //Loading librairies
     luaL_openlibs(L);
-    cl_include(L);
     lS_include(L);
     gFS_include(L);
 

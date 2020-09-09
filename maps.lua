@@ -54,7 +54,7 @@ function map(snek)
     ret.show = function(map)
         map:drawMap()
         map.snek:show()
-        refresh()
+        nc.refresh()
     end
 
     --return weather or not the head of the snek is on a fruit and if true hange the case back to normal ground
@@ -70,11 +70,11 @@ function map(snek)
     --draw a map a tad to the top left of the terminal
     ret.drawMap = function(map)
         for i=1,#map do
-            move(i+offset-1, offset)
+            nc.move(i+offset-1, offset)
             for j=1,#map[i] do
                 local case = map[i][j]
-                set_color(case.color)
-                printw(case.char)
+                nc.set_color(case.color)
+                nc.printw(case.char)
             end
         end
     end

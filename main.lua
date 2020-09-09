@@ -1,19 +1,19 @@
-
+nc = require("cursedLua")
 curse_on = false --indicate if we run initcurses or not
 
 function initcurses()
     if not curse_on then
         --log = io.open("log","a") --a debug file --not much point now
         --log:write("\nNew Game\n")
-        initscr()
-        curs_set(0)
-        start_color()
-        noecho()
-        use_default_colors()
-        init_pair(1,-1,-1)
-        init_pair(2,1,15)
-        init_pair(3,10,-1)
-        init_pair(4,9,-1)
+        nc.initscr()
+        nc.curs_set(0)
+        nc.start_color()
+        nc.noecho()
+        nc.use_default_colors()
+        nc.init_pair(1,-1,-1)
+        nc.init_pair(2,1,15)
+        nc.init_pair(3,10,-1)
+        nc.init_pair(4,9,-1)
         if not offset then --we give offset a default value
             offset = 2
         end
@@ -23,29 +23,29 @@ end
 
 function stopcurses()
     if curse_on then
-        echo()
-        curs_set(1)
-        nodelay(false)
-        endwin()
+        nc.echo()
+        nc.curs_set(1)
+        nc.nodelay(false)
+        nc.endwin()
         curse_on = false
     end
 end
 
 function input()
-    ch = getch()
+    ch = nc.getch()
     if not swichInput then
         swichInput = {
-            [KEY_UP] = 1,
-            [KEY_LEFT] = 2,
-            [KEY_DOWN] = 3,
-            [KEY_RIGHT] = 4,
+            [nc.KEY_UP] = 1,
+            [nc.KEY_LEFT] = 2,
+            [nc.KEY_DOWN] = 3,
+            [nc.KEY_RIGHT] = 4,
         }
     end
     return swichInput[ch]
 end
 
 function gameLoop(map)
-    nodelay(true)
+    nc.nodelay(true)
     local previousDir = 4 --at the start the snake go to the right
     map:show()
     while not fin do
@@ -68,14 +68,14 @@ function gameLoop(map)
             fin = true
         end
     end
-    nodelay(false);
+    nc.nodelay(false);
 end
 
 --generate a default map whose size is based on the size of the terminal
 --if the map can't be generated an error is returned as a second return value
 function defaltMap()
     initcurses()
-    local y,x = getmaxyx()
+    local y,x = nc.getmaxyx()
     if y < 10 or x < 9 then
         return nil,"Error : terminal too small"
     end

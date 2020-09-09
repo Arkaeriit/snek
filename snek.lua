@@ -13,11 +13,11 @@ function createSnek(y, x)
     local ret = {head = pos(y,x), body={}}
 
     ret.show = function(snek)
-        set_color(head.color)
-        mvprintw(offset + snek.head.y - 1, offset + snek.head.x - 1, head.char)
+        nc.set_color(head.color)
+        nc.mvprintw(offset + snek.head.y - 1, offset + snek.head.x - 1, head.char)
         for i=1,#snek.body do
-            set_color(body.color)
-            mvprintw(offset + snek.body[i].y - 1, offset + snek.body[i].x -1, body.char)
+            nc.set_color(body.color)
+            nc.mvprintw(offset + snek.body[i].y - 1, offset + snek.body[i].x -1, body.char)
         end
     end
 

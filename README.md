@@ -6,7 +6,9 @@ This game is a snake game written mostly in Lua with the same library to use ncu
 ![Alt text](https://i.imgur.com/Dj0UZdp.png "A default map")
 
 ## Installation
-To install this just use
+To install evenmorelua you need the library cursedLua, available here: https://github.com/Arkaeriit/cursedLua.
+
+When the library is installed, this just use: 
 ```bash
 make && sudo make install
 ```
