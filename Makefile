@@ -1,5 +1,6 @@
 FLAGS = -Wall -Werror
 CL = -lcursedLua
+GFS = -lgestionFS
 LUA = -llua -lm -ldl  
 
 all : snek.bin
@@ -25,14 +26,11 @@ info.luac : info.lua
 luaSleep.o : luaSleep.c luaSleep.h
 	gcc -c luaSleep.c $(FLAGS) -o luaSleep.o
 
-gestionFS.o : gestionFS.c gestionFS.h
-	gcc -c gestionFS.c $(FLAGS) -o gestionFS.o
-
 main.o : main.c
 	gcc -c main.c $(FLAGS) -o main.o
 
-snek.bin : main.o luaSleep.o gestionFS.o maps.luac position.luac main.luac snek.luac mapsGenerator.luac info.luac
-	gcc main.o luaSleep.o gestionFS.o $(FLAGS) $(CL) $(LUA) -o snek.bin
+snek.bin : main.o luaSleep.o maps.luac position.luac main.luac snek.luac mapsGenerator.luac info.luac
+	gcc main.o luaSleep.o $(FLAGS) $(CL) $(LUA) $(GFS) -o snek.bin
 
 install :
 	mkdir -p /usr/local/share/snek

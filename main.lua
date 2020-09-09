@@ -1,4 +1,5 @@
 nc = require("cursedLua")
+gFS = require("gestionFS")
 curse_on = false --indicate if we run initcurses or not
 
 function initcurses()

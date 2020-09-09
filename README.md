@@ -7,8 +7,9 @@ This game is a snake game written mostly in Lua with the same library to use ncu
 
 ## Installation
 To install evenmorelua you need the library cursedLua, available here: https://github.com/Arkaeriit/cursedLua.
+You also need the library ASCgestionFS, available here: https://github.com/Arkaeriit/ASCgestionFS.
 
-When the library is installed, this just use: 
+When the libraries are installed, this just use: 
 ```bash
 make && sudo make install
 ```

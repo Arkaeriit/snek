@@ -27,8 +27,8 @@ end
 
 --This function return a list of all the filenames of installed maps
 function listMaps()
-    local ret1 = ls("/usr/local/share/snek/maps")
-    local ret2 = ls("/usr/share/snek/maps")
+    local ret1 = gFS.ls("/usr/local/share/snek/maps")
+    local ret2 = gFS.ls("/usr/share/snek/maps")
     for i=1,#ret1 do --We remove doubles, /usr/local got priority
         for k,v in pairs(ret2) do
             if ret1[i] == v then
@@ -40,7 +40,7 @@ function listMaps()
         ret1[i] = "/usr/local/share/snek/maps/"..ret1[i]
     end
     for k,v in pairs(ret2) do
-        ret2[k] = "/usr/local/share/snek/maps/"..v --we complete names in ret2
+        ret2[k] = "/usr/share/snek/maps/"..v --we complete names in ret2
         ret1[#ret1+1] = ret2[k] --we append ret2 to ret1
     end
     if #ret1 > 0 then
