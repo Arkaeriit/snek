@@ -11,10 +11,10 @@ function initcurses()
         nc.start_color()
         nc.noecho()
         nc.use_default_colors()
-        nc.init_pair(1,-1,-1)
-        nc.init_pair(2,1,15)
-        nc.init_pair(3,10,-1)
-        nc.init_pair(4,9,-1)
+        nc.init_pair(1,-1,-1) --default color
+        nc.init_pair(2,0,15) --wall color
+        nc.init_pair(3,10,-1) --snake color
+        nc.init_pair(4,9,-1) --fruit color
         if not offset then --we give offset a default value
             offset = 2
         end
@@ -33,13 +33,14 @@ function stopcurses()
 end
 
 function input()
-    ch = nc.getch()
+    local ch = nc.getch()
     if not swichInput then
         swichInput = {
             [nc.KEY_UP] = 1,
             [nc.KEY_LEFT] = 2,
             [nc.KEY_DOWN] = 3,
             [nc.KEY_RIGHT] = 4,
+            [string.byte("p")] = "pause",
         }
     end
     return swichInput[ch]
@@ -50,7 +51,11 @@ function gameLoop(map)
     local previousDir = 4 --at the start the snake go to the right
     map:show()
     while not fin do
-        inp = input()
+        local inp = input()
+        if inp == "pause" then
+            pause()
+            inp = previousDir
+        end
         if inp and inp ~= previousDir then
             map.snek:move(inp)
             previousDir = inp
@@ -70,6 +75,25 @@ function gameLoop(map)
         end
     end
     nc.nodelay(false);
+end
+
+-- A little pause promp
+function pause()
+    collectgarbage()
+    nc.nodelay(false)
+    local y,x = nc.getmaxyx()
+    nc.set_color(2)
+    nc.move(y-1, 1)
+    nc.printw(" Game paused, press enter to resume. ")
+    local inp = nc.getch()
+    while inp ~= nc.KEY_ENTER and inp ~= 10 do
+        inp = nc.getch()
+        msleep(500)
+    end
+    nc.set_color(1)
+    nc.move(y-1, 1)
+    nc.printw("                                     ")
+    nc.nodelay(true)
 end
 
 --generate a default map whose size is based on the size of the terminal
