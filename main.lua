@@ -69,6 +69,9 @@ function gameLoop(map)
         end
         map:show()
         collectgarbage() --a good time to collect since there is nothing to do
+        if map.waitingFruits then --if we need to add more fuits then we should try to
+            map:fillFruits()
+        end
         msleep(500)
         if map:isBumping() or map.snek:biting() or map:isWin() then
             fin = true

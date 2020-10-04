@@ -48,12 +48,15 @@ end
 
 --a basic map class
 function map(snek, fruits)
-    local ret = {["snek"] = snek, ["max"] = 0, ["fruits"] = fruits}
+    local ret = {["snek"] = snek, ["max"] = 0, ["fruits"] = fruits, ["waitingFruits"] = false}
 
     --put the maximum number of fruits in the map
     ret.fillFruits = function(map)
         for i=1,map.fruits do
             map:addFruit()
+        end
+        if map:cmpTiles(fruit) >= map.fruits then
+            map.waitingFruits = false
         end
     end
 
@@ -98,6 +101,10 @@ function map(snek, fruits)
             if #groundMap > 0 then
                 local i = math.random(1, #groundMap)
                 map[groundMap[i].y][groundMap[i].x] = fruit
+            else
+                if map:cmpTiles(fruit) == 0 then
+                    map.waitingFruits = true --if we need more fruits but we cant place it we should note it
+                end
             end
         end
     end
