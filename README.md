@@ -22,14 +22,14 @@ To start the game just type `snek` and the game will start in a map adapted to t
 You can also play a custom map. To do so type `snek ` followed by the name of the map. For example `snek Factory` will start the map factory. You can list all available maps by typing `snek map`
 
 ### Play the game
-The aim of the game is to have the biggest snake possible. The head of the snake is represented by a `@` and it's body by `+`. To make the smake grow it must eat fruit represented by red `o`. Be careful, the snake can't hit a wall or bit it's own tail, otherwize you loose.
+The goal of the game is to have the biggest snake possible. The head of the snake is represented by a `@` and it's body by `+`. To make the smake grow it must eat fruit represented by red `o`. Be careful, the snake can't hit a wall or bite its tail, otherwise, you lose.
 
-To control the snake, use the arrow keys.
+To control the snake, use the arrow keys. You can pause the game by pressing `p` and resume it by pressing enter.
 
 ### Creating custom maps
-If you want to create a custom map, you can. Maps are contained in a single ASCII file. The first line contain a description of the map. The second line contain the number of fruits which will be spawned in the map. The third and fouth line are the starting coordinates of the snake (the third line is the starting line and the fourth line is the starting column). The fifth line contain the size at wich the snake is considered winning (if there is no number, it will default to the number of ground tiles).
+If you want to create a custom map, you can. Maps are contained in a single ASCII file. The first line contains a description of the map. The second line contains the number of fruits that will be spawned on the map. The third and fourth lines are the starting coordinates of the snake (the third line is the starting line and the fourth line is the starting column). The fifth line contains the size at which the snake is considered winning (if there is no number, it will default to the number of ground tiles).
 
-After that is a representation in ASCII characters of the map. Each line of the representation corresponds to a line of the map. The tiles are represented as following:
+After that is a representation in ASCII characters of the map. Each line of the representation corresponds to a line of the map. The tiles are represented as follows:
 
 | Char in the file | Equivalent tile | Description                         |
 |:----------------:|:---------------:|:-----------------------------------:|
@@ -38,8 +38,9 @@ After that is a representation in ASCII characters of the map. Each line of the 
 | 2                | Wall            | A tile where the snake can't go.    |
 | 5                | Fruit           | A bonus fruit you choose the place. |
 
-New line and carriage return are ignored and every other character is interpreted as a void tile.
+Newline and carriage return are ignored and every other character is interpreted as a void tile.
 
 You can play your map by typing in a terminal `snek ` followed by the file name of the map or you can install it by putting it in /usr/share/snek/maps or /usr/local/share/snek/maps.
 
 ![Alt text](https://i.imgur.com/VxuUnyX.png "Example with a picture")
+
