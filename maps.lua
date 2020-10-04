@@ -86,19 +86,11 @@ function map(snek)
 
     --change a ground case not bellow the snek in a fruit case
     ret.addFruit = function(map)
-        local y = math.random(1,#map)
-        local x = math.random(1,#map[y])
-        local posn = pos(y,x)
-        if map[y][x] == ground and (not map.snek:isSnek(posn)) then
-            map[y][x] = fruit
-        elseif map:moreFruit() then --if we can't put a fruit we retry if we arent done
-            map:addFruit()
+        local groundMap = map:freeGround()
+        if #groundMap > 0 then
+            local i = math.random(1, #groundMap)
+            map[groundMap[i].y][groundMap[i].x] = fruit
         end
-    end
-
-    --return true of we can add more fuits
-    ret.moreFruit = function(map)
-        return (map:cmpGround() > (#map.snek.body + 1))
     end
 
     --put the number of ground tiles in the max fied
@@ -118,6 +110,22 @@ function map(snek)
         end
         return ret
     end
+
+    --return a list of free grong tiles
+    ret.freeGround = function(map)
+        local ret = {}
+        for i=1,#map do
+            for j=1,#map[i] do
+                if map[i][j] == ground then
+                    if not map.snek:isSnek(pos(i, j)) then
+                        ret[#ret+1] = pos(i,j)
+                    end
+                end
+            end
+        end
+        return ret
+    end
+
 
     --return true if the size of the snake is equal to the max field
     ret.isWin = function(map)

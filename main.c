@@ -9,9 +9,6 @@ load lirairies and luac files.                |
 #include <string.h>
 #include "luaSleep.h"
 
-//Choosing local file or global ones
-#define DEVEL 0
-
 int main(int argc, char** argv){
     lua_State* L;
     L = luaL_newstate();
@@ -21,14 +18,6 @@ int main(int argc, char** argv){
     lS_include(L);
 
     //Loading lua files
-#if DEVEL == 1
-    luaL_dofile(L,"maps.lua");
-    luaL_dofile(L,"snek.lua");
-    luaL_dofile(L,"main.lua");
-    luaL_dofile(L,"position.lua");
-    luaL_dofile(L,"mapsGenerator.lua");
-    luaL_dofile(L,"info.lua");
-#else
     luaL_dofile(L,"/usr/share/snek/maps.luac");
     luaL_dofile(L,"/usr/share/snek/snek.luac");
     luaL_dofile(L,"/usr/share/snek/main.luac");
@@ -41,7 +30,12 @@ int main(int argc, char** argv){
     luaL_dofile(L,"/usr/local/share/snek/position.luac");
     luaL_dofile(L,"/usr/local/share/snek/mapsGenerator.luac");
     luaL_dofile(L,"/usr/local/share/snek/info.luac");
-#endif
+    luaL_dofile(L,"maps.lua");
+    luaL_dofile(L,"snek.lua");
+    luaL_dofile(L,"main.lua");
+    luaL_dofile(L,"position.lua");
+    luaL_dofile(L,"mapsGenerator.lua");
+    luaL_dofile(L,"info.lua");
 
     //Starting the main lua function
     if(argc == 1){ //no arguments
