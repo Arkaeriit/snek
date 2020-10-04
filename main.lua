@@ -82,10 +82,10 @@ function defaltMap()
     end
     local sn = createSnek(2,3)
     sn.body = {pos(2,2)}
-    local ret = rectangleMap(sn, y-6, x-6)
-    for i=1,math.ceil(ret.max/12) do --we add a fruit for each 12 tiles
-        ret:addFruit()
-    end
+    local ret = rectangleMap(sn, 0, y-6, x-6) --the amount of fruits will be added latter
+    local fruits = math.ceil(ret.max/12) --we add a fruit for each 12 tiles
+    ret.fruits = fruits
+    ret:fillFruits()
     offset = 3
     return ret
 end

@@ -47,7 +47,7 @@ function readMap(file)
     end
     local sn = createSnek(math.tointeger(y), math.tointeger(x)) --creation of the snake
     sn.body = {pos(math.tointeger(y), math.tointeger(x)-1)}
-    local ret = map(sn)
+    local ret = map(sn, fruit)
     str = file:read("l")
     while str do --creation of the map
         ret[#ret+1] = createLine(str)
@@ -61,9 +61,7 @@ function readMap(file)
     if errorPosition(ret) then --checking the position of the snake
         return nil, "Error : the snake is outside the map.\n"
     end
-    for i=1,fruit do
-        ret:addFruit()
-    end
+    ret:fillFruits()
     return ret, nil
 end
 

@@ -28,8 +28,8 @@ body = {id = 4, color = 3, char = "+"}
 fruit = {id = 5, color = 4, char = "o"}
 
 --generate the most boring map you can think of
-function rectangleMap(snek, y, x)
-    local ret = map(snek)
+function rectangleMap(snek, fruits, y, x)
+    local ret = map(snek, fruits)
     for i=1,y do
         ret[i] = {}
         for j=1,x do
@@ -47,8 +47,15 @@ end
 
 
 --a basic map class
-function map(snek)
-    local ret = {["snek"] = snek, ["max"] = 0}
+function map(snek, fruits)
+    local ret = {["snek"] = snek, ["max"] = 0, ["fruits"] = fruits}
+
+    --put the maximum number of fruits in the map
+    ret.fillFruits = function(map)
+        for i=1,map.fruits do
+            map:addFruit()
+        end
+    end
 
     --refresh the screen
     ret.show = function(map)
@@ -86,10 +93,12 @@ function map(snek)
 
     --change a ground case not bellow the snek in a fruit case
     ret.addFruit = function(map)
-        local groundMap = map:freeGround()
-        if #groundMap > 0 then
-            local i = math.random(1, #groundMap)
-            map[groundMap[i].y][groundMap[i].x] = fruit
+        if map:cmpTiles(fruit) < map.fruits then
+            local groundMap = map:freeGround()
+            if #groundMap > 0 then
+                local i = math.random(1, #groundMap)
+                map[groundMap[i].y][groundMap[i].x] = fruit
+            end
         end
     end
 
@@ -100,10 +109,15 @@ function map(snek)
 
     --return the number of ground tiles
     ret.cmpGround = function(map)
+        return map:cmpTiles(ground)
+    end
+
+    --return the number of a given tile
+    ret.cmpTiles = function(map, tile)
         local ret = 0
         for i=1,#map do
             for j=1,#map[i] do
-                if map[i][j] == ground then
+                if map[i][j] == tile then
                     ret = ret + 1
                 end
             end
@@ -111,7 +125,7 @@ function map(snek)
         return ret
     end
 
-    --return a list of free grong tiles
+    --return a list of free ground tiles
     ret.freeGround = function(map)
         local ret = {}
         for i=1,#map do
