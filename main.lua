@@ -3,6 +3,7 @@ gFS = require("gestionFS")
 curse_on = false --indicate if we run initcurses or not
 
 function initcurses()
+    math.randomseed(os.time())
     if not curse_on then
         --log = io.open("log","a") --a debug file --not much point now
         --log:write("\nNew Game\n")
@@ -118,7 +119,6 @@ function defaltMap()
 end
 
 function playMap(map)
-    math.randomseed(os.time())
     initcurses()
     gameLoop(map)
     sleep(3)
@@ -143,6 +143,7 @@ function defaultPlay()
 end
 
 function askMap(filename)
+    math.randomseed(os.time())
     local f = io.open(filename,"r")
     if not f then
         f = io.open("/usr/local/share/snek/maps/"..filename,"r")
