@@ -102,7 +102,7 @@ end
 
 --generate a default map whose size is based on the size of the terminal
 --if the map can't be generated an error is returned as a second return value
-function defaltMap()
+function defaultMap()
     initcurses()
     local y,x = nc.getmaxyx()
     if y < 10 or x < 9 then
@@ -132,7 +132,7 @@ function playMap(map)
 end
 
 function defaultPlay()
-    local map,err = defaltMap()
+    local map,err = defaultMap()
     if err then
         stopcurses()
         io.stderr:write(err)
