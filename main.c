@@ -8,6 +8,7 @@ load lirairies and luac files.                |
 #include <lauxlib.h>
 #include <string.h>
 #include "luaSleep.h"
+#include "cursedLua.h"
 
 int main(int argc, char** argv){
     lua_State* L;
@@ -16,6 +17,8 @@ int main(int argc, char** argv){
     //Loading librairies
     luaL_openlibs(L);
     lS_include(L);
+    luaopen_cursedLua(L);
+    lua_setglobal(L, "nc");
 
     //Loading lua files
     luaL_dofile(L,"/usr/share/snek/maps.luac");
