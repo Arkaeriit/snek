@@ -9,6 +9,7 @@ load lirairies and luac files.                |
 #include <string.h>
 #include "luaSleep.h"
 #include "cursedLua.h"
+#include "gestionFS.h"
 
 int main(int argc, char** argv){
     lua_State* L;
@@ -19,6 +20,9 @@ int main(int argc, char** argv){
     lS_include(L);
     luaopen_cursedLua(L);
     lua_setglobal(L, "nc");
+    luaopen_gestionFS(L);
+    lua_setglobal(L, "gFS");
+
 
     //Loading lua files
     luaL_dofile(L,"/usr/share/snek/maps.luac");

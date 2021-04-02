@@ -32,8 +32,11 @@ main.o : main.c
 cursedLua.o : cursedLua.c
 	gcc -c cursedLua.c $(FLAGS) -o cursedLua.o
 
-snek.bin : main.o cursedLua.o luaSleep.o maps.luac position.luac main.luac snek.luac mapsGenerator.luac info.luac
-	gcc main.o cursedLua.o luaSleep.o $(FLAGS) $(NC) $(LUA) $(GFS) -o snek.bin
+gestionFS.o : gestionFS.c
+	gcc -c gestionFS.c $(FLAGS) -o gestionFS.o
+
+snek.bin : main.o cursedLua.o gestionFS.o luaSleep.o maps.luac position.luac main.luac snek.luac mapsGenerator.luac info.luac
+	gcc main.o cursedLua.o gestionFS.o luaSleep.o $(FLAGS) $(NC) $(LUA) $(GFS) -o snek.bin
 
 install :
 	mkdir -p /usr/local/share/snek
